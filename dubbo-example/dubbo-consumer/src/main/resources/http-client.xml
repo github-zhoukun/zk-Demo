@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--httpClient 连接池-->
+    <bean id="httpClientConnectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager">
+        <property name="maxTotal" value="100"/>
+        <property name="defaultMaxPerRoute" value="5"/>
+    </bean>
+
+    <!--HttpClient构建实例工厂-->
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+        <property name="connectionManager" ref="httpClientConnectionManager"/>
+    </bean>
+    <!--获取HttpClient工厂-->
+    <bean id="httpClient" factory-bean="httpClientBuilder" factory-method="build"/>
+
+    <!--定期清理无效链接 这里设置的5秒-->
+    <bean class="com.zk.demo.dubbocomsumer.lib.http.ClearHttpConnectionsHandler" destroy-method="shutdown">
+        <constructor-arg index="0" ref="httpClientConnectionManager"/>
+    </bean>
+
+    <bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+        <!--从连接池获取连接最长等待时间-->
+        <property name="connectionRequestTimeout" value="500"/>
+        <!--连接超时时间-->
+        <property name="connectTimeout" value="5000"/>
+        <!--数据数据传输最长时间-->
+        <property name="socketTimeout" value="10000"/>
+        <!-- 提交请求前测试连接是否可用 -->
+        <!--<property name="staleConnectionCheckEnabled" value="true"/>-->
+    </bean>
+    <!--获取requestConfig 实例-->
+    <bean id="requestConfig" factory-bean="requestConfigBuilder" factory-method="build"/>
+</beans>

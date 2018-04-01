@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zk.demo.dubboprovider.dao.UserDao">
+    <resultMap id="BaseResultMap" type="com.zk.demo.dubboapi.entity.UserInfo">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="state" property="state"/>
+        <result column="note" property="note"/>
+    </resultMap>
+
+    <insert id="create" parameterType="User">
+    INSERT INTO common_user (name, password, salt, state, note)
+    VALUES (#{name}, #{password}, #{salt}, #{state}, #{note})
+  </insert>
+
+    <delete id="deleteById" parameterType="Long">
+    DELETE FROM common_user WHERE id = #{id}
+  </delete>
+
+    <update id="update" parameterType="User">
+    UPDATE common_user
+    SET name = #{name}, password = #{password}, salt = #{salt}, state = #{state}, note = #{note}
+    WHERE id = #{id}
+  </update>
+
+    <select id="getAll" resultMap="BaseResultMap">
+    select id, name, password, salt, state, note
+    from common_user
+  </select>
+</mapper>
