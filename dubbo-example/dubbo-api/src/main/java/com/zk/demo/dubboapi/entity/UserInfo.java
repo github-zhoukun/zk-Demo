@@ -1,5 +1,7 @@
 package com.zk.demo.dubboapi.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.zk.demo.dubboapi.serializer.UserStateSerializer;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * user信息实体类
  */
 @Alias("User")
-public class UserInfo implements Serializable{
+public class UserInfo implements Serializable {
 
     private Integer id;
 
@@ -16,6 +18,7 @@ public class UserInfo implements Serializable{
 
     private String password;
 
+    @JSONField(serializeUsing = UserStateSerializer.class)
     private Integer state;
 
     private String salt;
