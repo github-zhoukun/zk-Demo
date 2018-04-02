@@ -11,9 +11,9 @@
     <context:property-placeholder location="classpath:db.properties"/>
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/demo?characterEncoding=utf8"/>
+        <property name="url" value="jdbc:mysql://*.*.*.*:3306/zhoukun?characterEncoding=utf8"/>
         <property name="username" value="root"/>
-        <property name="password" value="123456"/>
+        <property name="password" value="***"/>
 
         <property name="filters" value="stat"/>
 
@@ -77,5 +77,5 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <!--<import resource="classpath:dubbo-provider.xml"/>-->
+    <import resource="classpath:dubbo-provider.xml"/>
 </beans>

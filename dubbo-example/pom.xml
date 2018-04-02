@@ -9,9 +9,11 @@
     <module>dubbo-consumer</module>
     <module>dubbo-provider</module>
     <module>dubbo-api</module>
+      <module>dubbo-web</module>
   </modules>
   <name>dubbo-example 例子</name>
   <url>http://maven.apache.org</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

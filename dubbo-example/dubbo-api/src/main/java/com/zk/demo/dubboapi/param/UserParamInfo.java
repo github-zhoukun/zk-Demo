@@ -1,9 +1,11 @@
 package com.zk.demo.dubboapi.param;
 
+import java.io.Serializable;
+
 /**
  * User查询参数类
  */
-public class UserParamInfo {
+public class UserParamInfo implements Serializable {
 
     private Integer id;
 

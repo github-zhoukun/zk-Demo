@@ -4,8 +4,8 @@
        xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
     <dubbo:application name="dubbo-consumer-01"  />
-    <dubbo:registry address="dubbo://47.98.*.5:2181" />
-    <dubbo:protocol name="dubbo" port="20880" />
+    <dubbo:registry address="zookeeper://*.*.*.*:2181?client=zkclient" />
+    <dubbo:protocol name="dubbo" port="20881" />
 
     <dubbo:reference id="userService" interface="com.zk.demo.dubboapi.api.UserService"/>
 </beans>
