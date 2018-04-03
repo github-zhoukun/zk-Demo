@@ -30,6 +30,11 @@ public class UserController {
         return "user/user";
     }
 
+    @RequestMapping(value = "mode")
+    public String getMode() {
+        return "mode/index";
+    }
+
     @RequestMapping(value = "get/data")
     @ResponseBody
     public ResultBean<List<UserInfo>> getAll(String search, String order, int offset, int limit) {
@@ -38,5 +43,13 @@ public class UserController {
         paramInfo.setRows(limit);
         List<UserInfo> list = userService.getAll(paramInfo);
         return new ResultBean<>(list, list.size());
+    }
+
+    @RequestMapping(value = "create")
+    @ResponseBody
+    public String create(UserInfo userInfo) {
+        userInfo.setState(1);
+        userService.create(userInfo);
+        return "更新成功!";
     }
 }
