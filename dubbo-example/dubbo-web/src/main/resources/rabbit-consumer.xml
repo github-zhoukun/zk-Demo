@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <context:property-placeholder location="classpath:rabbit-consumer.xml"/>
+
+    <bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg value="${url}"/>
+        <property name="username" value="${name}"/>
+        <property name="password" value="${password}"/>
+        <property name="channelCacheSize" value="8"/>
+        <property name="port" value="${port}"/>
+    </bean>
+    <rabbit:admin connection-factory="rabbitConnectionFactory"/>
+
+    <!-- autoDelete:是否自动删除 durable:持久化  -->
+    <rabbit:queue name="queue1" durable="true"/>
+    <rabbit:queue name="queue2" durable="true"/>
+
+    <!-- 该处是指将路由 与两个队列绑定在一块，也可以在rabbitMq的控制台上手动绑定，手动绑定之后，该处代码可以省略，其实发送端已经绑定过了，也没必要绑定了，所以该代码可以省略 -->
+    <!--   <rabbit:topic-exchange name="leo.pay.topic.exchange" xmlns="http://www.springframework.org/schema/rabbit" durable="true"> -->
+    <!--      <bindings> -->
+    <!--        <binding queue="queue1" pattern="*.*" /> -->
+    <!--        <binding queue="queue2" pattern="test321.*" /> -->
+    <!--      </bindings> -->
+    <!--    </rabbit:topic-exchange> -->
+
+    <!-- 配置监听本来是两个的 我现在用一个监听两个队列-->
+    <bean id="consumerQueueListener" class="com.zk.demo.dubboweb.rabbitlisten.ConsumerQueueListener"/>
+    <!-- 将两个队列加入监听容器中，每个队列的监听都对应一个监听器 -->
+    <rabbit:listener-container connection-factory="rabbitConnectionFactory" concurrency="8">
+        <rabbit:listener  queues="queue1" ref="consumerQueueListener" method="onMessage" />
+        <rabbit:listener  queues="queue2" ref="consumerQueueListener" method="onMessage" />
+    </rabbit:listener-container>
+</beans>

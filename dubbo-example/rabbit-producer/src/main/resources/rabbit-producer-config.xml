@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/beans" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit.xsd">
+
+    <context:property-placeholder location="classpath:rabbitmq.properties"/>
+    <!-- rabbitMQ配置 -->
+    <bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory">
+        <constructor-arg value="${url}"/>
+        <property name="username" value="${name}"/>
+        <property name="password" value="${password}"/>
+        <property name="channelCacheSize" value="8"/>
+        <property name="port" value="${port}"/>
+    </bean>
+    <rabbit:admin connection-factory="rabbitConnectionFactory"/>
+
+    <!-- autoDelete:是否自动删除 durable:持久化  -->
+    <rabbit:queue name="queue1" durable="true"/>
+    <rabbit:queue name="queue2" durable="true"/>
+
+    <!-- topic主题 -->
+    <rabbit:topic-exchange name="rabbit-mq-exchange"  durable="true">
+        <rabbit:bindings>
+            <rabbit:binding queue="queue1" pattern="*.*.queue1"/>
+            <rabbit:binding queue="queue2" pattern="queue2.#"/>
+        </rabbit:bindings>
+    </rabbit:topic-exchange>
+
+    <!-- 创建rabbitTemplate 消息模板类 -->
+    <bean id="rabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+        <constructor-arg ref="rabbitConnectionFactory"/>
+    </bean>
+</beans>

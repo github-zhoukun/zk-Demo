@@ -7,7 +7,6 @@
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:component-scan base-package="com.zk.demo.dubboweb"/>
-    <import resource="classpath:dubbo-web-consumer.xml"/>
-    <import resource="classpath:rabbit-consumer.xml"/>
+    <context:component-scan base-package="com.zk.demo.rabbitproducer"/>
+    <import resource="classpath:rabbit-producer-config.xml"/>
 </beans>
