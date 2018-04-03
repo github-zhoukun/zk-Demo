@@ -3,7 +3,7 @@ package com.zk.demo.dubboweb.controller;
 import com.zk.demo.dubboapi.api.UserService;
 import com.zk.demo.dubboapi.entity.UserInfo;
 import com.zk.demo.dubboapi.param.UserParamInfo;
-import com.zk.demo.dubboweb.entity.ResultInfo;
+import com.zk.demo.dubboweb.entity.ResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class UserController {
 
     @RequestMapping(value = "get/data")
     @ResponseBody
-    public ResultInfo<List<UserInfo>> getAll(String search, String order, int offset, int limit) {
+    public ResultBean<List<UserInfo>> getAll(String search, String order, int offset, int limit) {
         UserParamInfo paramInfo = new UserParamInfo();
         paramInfo.setPage(offset / limit + 1);
         paramInfo.setRows(limit);
         List<UserInfo> list = userService.getAll(paramInfo);
-        return new ResultInfo<>(list, list.size());
+        return new ResultBean<>(list, list.size());
     }
 }
