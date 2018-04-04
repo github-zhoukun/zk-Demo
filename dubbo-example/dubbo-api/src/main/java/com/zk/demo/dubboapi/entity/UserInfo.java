@@ -24,6 +24,8 @@ public class UserInfo implements Serializable {
     private String salt;
 
     private String note;
+    
+    private Long roleId;
 
     public Integer getId() {
         return id;
