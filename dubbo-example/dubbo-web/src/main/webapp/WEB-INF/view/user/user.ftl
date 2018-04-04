@@ -15,7 +15,7 @@
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModel">新增</button>
             </div>
             <div class="form-group">
-                <button type="button" class="btn btn-primary">修改</button>
+                <button type="button" class="btn btn-primary" onclick="update()">修改</button>
             </div>
             <div class="form-group">
                 <button type="button" class="btn btn-primary">删除</button>
@@ -104,8 +104,9 @@
                 //请求前
             },
             success:function (result) {  //请求成功时
-                // console.log(result);
-                $('#createModel').modal('hide'); //隐藏
+                BootstrapDialog.show({
+                    message: result
+                });
                 $table.bootstrapTable('refresh', {url: '${ctx}/user/get/data'});
 
             },
@@ -115,6 +116,30 @@
             error:function(){
                 //请求失败时
             }
+        });
+    };
+    
+    function update() {
+        BootstrapDialog.show({
+            title: '更新用户信息',
+            message: $('<div></div>').load('${ctx}/user/update'),
+            buttons: [{
+                label: '取消',
+                cssClass: 'glyphicon glyphicon-ban-circle',
+                action: function(dialogItself){
+                    dialogItself.close();
+                }
+            },{
+                label: '更新',
+                cssClass: 'btn-primary',
+                data: {
+                    js: 'btn-confirm',
+                    'user-id': '3'
+                },
+                action: function(){
+                    alert('Hi Orange!');
+                }
+            }]
         });
     }
 </script>
