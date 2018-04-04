@@ -30,6 +30,11 @@ public class UserController {
         return "user/user";
     }
 
+    @RequestMapping(value = "update")
+    public String userForm(){
+        return "user/user_form";
+    }
+
     @RequestMapping(value = "mode")
     public String getMode() {
         return "mode/index";
@@ -41,15 +46,24 @@ public class UserController {
         UserParamInfo paramInfo = new UserParamInfo();
         paramInfo.setPage(offset / limit + 1);
         paramInfo.setRows(limit);
-        List<UserInfo> list = userService.getAll(paramInfo);
-        return new ResultBean<>(list, list.size());
+        return new ResultBean<>( userService.getAll(paramInfo), userService.getTotal(paramInfo));
     }
 
     @RequestMapping(value = "create")
     @ResponseBody
     public String create(UserInfo userInfo) {
-        userInfo.setState(1);
-        userService.create(userInfo);
-        return "更新成功!";
+        try {
+            UserParamInfo paramInfo = new UserParamInfo();
+            paramInfo.setName(userInfo.getName());
+            List<UserInfo> list =  userService.getUserByName(paramInfo);
+            if(list != null && list.size() > 0){
+                return userInfo.getName()+ " 已经存在!";
+            }
+            userInfo.setState(1);
+            userService.create(userInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "创建成功!";
     }
 }

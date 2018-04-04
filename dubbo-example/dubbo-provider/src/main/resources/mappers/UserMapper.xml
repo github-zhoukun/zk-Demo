@@ -28,5 +28,36 @@
     <select id="getAll" resultMap="BaseResultMap">
     select id, name, password, salt, state, note
     from common_user
+    <include refid="select_condition"/>
   </select>
+
+    <select id="getTotal" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM common_user
+        <include refid="select_condition"/>
+    </select>
+
+    <select id="getEntityById" resultType="User">
+      select id, name, password, salt, state, note
+      from common_user WHERE id = #{id}
+    </select>
+
+    <select id="getUserByName" resultMap="BaseResultMap">
+        select id, name, password, salt, state, note
+        from common_user
+        <include refid="select_condition"/>
+    </select>
+
+    <sql id="select_condition">
+        <where>
+            <if test="param.id != null and param.id > 0">
+                AND id = #{param.id}
+            </if>
+            <if test="param.name != null and param.name != ''">
+                AND name = #{param.name}
+            </if>
+            <if test="param.state != null">
+                AND state = #{param.state}
+            </if>
+        </where>
+    </sql>
 </mapper>

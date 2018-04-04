@@ -36,10 +36,25 @@ public class UserImpl implements UserService {
         userDao.update(userInfo);
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = true)
+    @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED, readOnly = true, rollbackFor = Exception.class)
     @Override
     public List<UserInfo> getAll(UserParamInfo userParamInfo) {
         PageHelper.startPage(userParamInfo.getPage(), userParamInfo.getRows());
         return userDao.getAll(userParamInfo);
+    }
+
+    @Override
+    public Integer getTotal(UserParamInfo userParamInfo) {
+        return userDao.getTotal(userParamInfo);
+    }
+
+    @Override
+    public UserInfo getEntityById(Integer id) {
+        return userDao.getEntityById(id);
+    }
+
+    @Override
+    public List<UserInfo> getUserByName(UserParamInfo userParamInfo) {
+        return userDao.getUserByName(userParamInfo);
     }
 }
