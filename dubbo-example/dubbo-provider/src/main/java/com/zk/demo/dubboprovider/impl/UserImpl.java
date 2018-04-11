@@ -5,6 +5,7 @@ import com.zk.demo.dubboapi.api.UserService;
 import com.zk.demo.dubboapi.entity.UserInfo;
 import com.zk.demo.dubboapi.param.UserParamInfo;
 import com.zk.demo.dubboprovider.dao.UserDao;
+import com.zk.demo.dubboprovider.dataSource.DynamicSwitchDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,6 +19,7 @@ import java.util.List;
  * @author zhoukun
  */
 @Service
+@DynamicSwitchDB(db = "zk")
 public class UserImpl implements UserService {
 
     @Autowired
@@ -44,6 +46,7 @@ public class UserImpl implements UserService {
     }
 
     @Override
+    @DynamicSwitchDB(db = "zk")
     public Integer getTotal(UserParamInfo userParamInfo) {
         return userDao.getTotal(userParamInfo);
     }

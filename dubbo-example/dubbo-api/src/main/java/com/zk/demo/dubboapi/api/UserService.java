@@ -36,4 +36,19 @@ public interface UserService {
      */
     List<UserInfo> getAll(UserParamInfo userParamInfo);
 
+    /**
+     * 总条数
+     * @param userParamInfo
+     * @return
+     */
+    Integer getTotal(UserParamInfo userParamInfo);
+
+    /**
+     * 根据id查询
+     * @param id
+     * @return
+     */
+    UserInfo getEntityById(Integer id);
+
+    List<UserInfo> getUserByName(UserParamInfo userParamInfo);
 }
