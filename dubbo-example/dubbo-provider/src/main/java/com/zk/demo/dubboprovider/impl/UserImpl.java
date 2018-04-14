@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Service
 @DynamicSwitchDB(db = "zk")
-public class UserImpl implements UserService {
+public class UserImpl implements UserService {  
 
     @Autowired
     private UserDao userDao;
