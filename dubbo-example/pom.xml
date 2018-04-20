@@ -11,6 +11,7 @@
     <module>dubbo-api</module>
     <module>dubbo-web</module>
     <module>rabbit-producer</module>
+      <module>elastic-job-demo</module>
   </modules>
   <name>dubbo-exampl::例子</name>
   <url>http://maven.apache.org</url>
